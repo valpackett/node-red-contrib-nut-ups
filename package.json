@@ -1,0 +1,31 @@
+{
+  "name": "node-red-contrib-nut-ups",
+  "version": "1.0.0",
+  "description": "Node-RED node that gets UPS data via NUT (Network UPS Tools)",
+  "main": "nut-ups/nut-ups.js",
+  "node-red": {
+    "nodes": {
+      "nut-ups": "nut-ups/nut-ups.js"
+    }
+  },
+  "engines": { "node" : ">=4.0.0" },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/myfreeweb/node-red-contrib-nut-ups"
+  },
+  "keywords": [
+    "node-red",
+    "node-red-contrib",
+    "nut",
+    "ups",
+    "metrics"
+  ],
+  "author": "Greg V <greg@unrelenting.technology>",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/myfreeweb/node-red-contrib-nut-ups/issues"
+  },
+  "homepage": "https://github.com/myfreeweb/node-red-contrib-nut-ups#readme",
+  "dependencies": { }
+}

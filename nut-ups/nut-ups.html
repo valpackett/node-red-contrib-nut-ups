@@ -1,0 +1,39 @@
+<script type="text/javascript">
+	RED.nodes.registerType('nut-ups', {
+		category: 'output',
+		color: '#FFAAAA',
+		defaults: {
+			name: { value: '' },
+			ups: { value: 'ups@127.0.0.1', required: true },
+		},
+		inputs: 1,
+		outputs: 1,
+		icon: 'arrow-in.png',
+		label: function () {
+			return this.name || 'nut-ups'
+		}
+	})
+</script>
+
+
+<script type="text/x-red" data-template-name="nut-ups">
+	<div class="form-row">
+		<label for="node-input-name"><i class="icon-tag"></i> Name</label>
+		<input type="text" id="node-input-name" placeholder="Name">
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-ups">Default UPS</label>
+		<input type="text" id="node-input-ups">
+		<br><small>(Used when the input is just something used to start the node, not an object with a <code>ups</code> property.)</small>
+	</div>
+</script>
+
+
+<script type="text/x-red" data-help-name="nut-ups">
+	<p>Gets UPS data via NUT (Network UPS Tools).</p>
+	<p>
+		Send it an object with a <code>ups</code> property that contains something like <code>ups@localhost</code>.
+		Or just any other payload, in which case the default address (from the node settings) will be used.
+	</p>
+</script>
