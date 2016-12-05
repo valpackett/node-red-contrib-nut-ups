@@ -18,12 +18,12 @@ module.exports = function (RED) {
 					var kv = line.split(':')
 					if (kv.length != 2) return
 					var key = kv[0].split('.')
-					key.slice(0, key.length - 1).reduce(function (obj, k) {
+					key.reduce(function (obj, k) {
 						k = k.trim()
 						if (typeof obj[k] === 'undefined')
 							obj[k] = {}
 						return obj[k]
-					}, result)[key[key.length - 1]] = kv[1].trim()
+					}, result)['value'] = kv[1].trim()
 				})
 				node.send({ payload: result })
 			})
