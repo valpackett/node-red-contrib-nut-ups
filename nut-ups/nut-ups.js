@@ -12,7 +12,10 @@ module.exports = function (RED) {
 		this.on('input', function (msg) {
 			var ups = (msg.payload || {}).ups || node.config.ups
 			execFile('upsc', [ups], function (err, stdout, stderr) {
-				if (err) throw err
+				if (err) {
+					node.error(err)
+					return
+				}
 				var result = {}
 				stdout.split('\n').forEach(function (line) {
 					var kv = line.split(':')
