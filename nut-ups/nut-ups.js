@@ -28,7 +28,8 @@ module.exports = function (RED) {
 						return obj[k]
 					}, result)['value'] = kv[1].trim()
 				})
-				node.send({ payload: result })
+				msg.payload = result;
+				node.send(msg);
 			})
 		})
 
