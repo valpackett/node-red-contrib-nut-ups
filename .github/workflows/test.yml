@@ -1,0 +1,23 @@
+name: Test/Lint
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  lint:
+    name: ESLint
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: "12.x"
+    - name: Dependencies
+      run: npm ci
+    - name: ESLint
+      run: npm run lint
