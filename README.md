@@ -1,6 +1,5 @@
 [![npm version](https://img.shields.io/npm/v/node-red-contrib-nut-ups.svg?style=flat)](https://www.npmjs.org/package/node-red-contrib-nut-ups)
 [![npm downloads](https://img.shields.io/npm/dm/node-red-contrib-nut-ups.svg?style=flat)](https://www.npmjs.org/package/node-red-contrib-nut-ups)
-[![Dependency Status](https://img.shields.io/gemnasium/myfreeweb/node-red-contrib-nut-ups.svg?style=flat)](https://gemnasium.com/myfreeweb/node-red-contrib-nut-ups)
 [![Unlicense](https://img.shields.io/badge/un-license-green.svg?style=flat)](http://unlicense.org)
 
 # node-red-contrib-nut-ups
@@ -9,13 +8,11 @@ Node-RED node that gets UPS data via NUT (Network UPS Tools).
 
 ## Installation
 
-Just like any Node-RED node... In the data directory, or in the same directory as Node-RED itself:
+Just like any other Node-RED node... search **node-red-contrib-nut-ups** in *Manage pallete* or install manually while in the data directory, or in the same directory as Node-RED itself:
 
 ```bash
 $ npm i node-red-contrib-nut-ups
 ```
-
-Also **install NUT**. The node calls the `upsc` binary.
 
 Restart Node-RED and use the node!
 
@@ -24,6 +21,12 @@ Restart Node-RED and use the node!
 Please feel free to submit pull requests!
 
 By participating in this project you agree to follow the [Contributor Code of Conduct](http://contributor-covenant.org/version/1/4/).
+
+## Thanks
+
+[Network UPS Tools](https://networkupstools.org) NUT project
+
+[Node-NUT](https://github.com/skarcha/node-nut) a Node.js module that implements a NUT client
 
 ## License
 

@@ -29,7 +29,9 @@
     "url": "https://github.com/myfreeweb/node-red-contrib-nut-ups/issues"
   },
   "homepage": "https://github.com/myfreeweb/node-red-contrib-nut-ups#readme",
-  "dependencies": {},
+  "dependencies": {
+    "node-nut": "^1.0.3"
+  },
   "devDependencies": {
     "eslint": "^7.5.0",
     "eslint-config-standard": "^14.1.1",

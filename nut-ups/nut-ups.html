@@ -8,32 +8,65 @@
 		},
 		inputs: 1,
 		outputs: 1,
-		icon: 'arrow-in.png',
+		icon: 'font-awesome/fa-bolt',
 		label: function () {
 			return this.name || 'nut ups'
-		}
+		},
+		labelStyle: function() {
+            return (this.name)?"node_label_italic":"";
+        }
 	})
 </script>
 
 
 <script type="text/x-red" data-template-name="nut-ups">
 	<div class="form-row">
-		<label for="node-input-name"><i class="icon-tag"></i> Name</label>
+		<label for="node-input-ups"><i class="fa fa-plug"></i> UPS</label>
+		<input type="text" id="node-input-ups" placeholder="ups@localhost">
+	</div>
+	<div class="form-row">
+		<label for="node-input-port"><i class="fa fa-random"></i> Port</label>
+		<input type="text" id="node-input-port" placeholder="3493">
+	</div>
+	<div class="form-row">
+		<label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
 		<input type="text" id="node-input-name" placeholder="Name">
 	</div>
-
-	<div class="form-row">
-		<label for="node-input-ups">Default UPS</label>
-		<input type="text" id="node-input-ups">
-		<br><small>(Used when the input is just something used to start the node, not an object with a <code>ups</code> property.)</small>
-	</div>
+	<div class="form-tips"><b>Tip:</b> You can also send ups info in the <b>msg.ups</b> property</div>
 </script>
 
+<script type="text/html" data-help-name="nut-ups">
+<p>Connects to a Network UPS Tools (NUT) server and publishes UPS variables</p>
 
-<script type="text/x-red" data-help-name="nut-ups">
-	<p>Gets UPS data via NUT (Network UPS Tools).</p>
-	<p>
-		Send it an object with a <code>ups</code> property that contains something like <code>ups@localhost</code>.
-		Or just any other payload, in which case the default address (from the node settings) will be used.
-	</p>
+<h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">any</span>
+        </dt>
+        <dd> anything to trigger the node. </dd>
+        <dt class="optional">ups <span class="property-type">string</span></dt>
+		<dd> the ups name and NUT server in the form of <b>ups@server</b>, if not 
+		set, the node configuration will be used.</dd>
+    </dl>
+
+ <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">object</span></dt>
+        <dd>an object representation of the available NUT UPS variables.</dd>
+    </dl>
+
+<h3>Details</h3>
+	<p><code>msg.payload</code> is used to trigger a connection to the NUT server. 
+	it will be replaced with the available dot-notated NUT UPS variables converted
+	to an object.</p>
+    <p>The ups@server info can be configured in the node or it can be set
+    by <code>msg.ups</code>.</p>
+	<p>Likewise the port value for the NUT server can be configured in the node or
+	set by <code>msg.port</code></p>
+
+<h3>References</h3>
+    <ul>
+        <li><a href='https://networkupstools.org'>Network UPS Tools (NUT) Project</a></li>
+        <li><a href='https://github.com/myfreeweb/node-red-contrib-nut-ups'>GitHub repository</a> for this node.</li>
+    </ul>
 </script>
