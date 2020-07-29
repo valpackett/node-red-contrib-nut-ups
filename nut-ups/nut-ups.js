@@ -1,39 +1,65 @@
-module.exports = function (RED) {
-	'use strict'
+module.exports = function(RED) {
+    'use strict';
+    function NutUpsNode(config) {
+        RED.nodes.createNode(this, config);
+        const node = this;
 
-	var execFile = require('child_process').execFile
+        const Nut = require('node-nut');
 
-	function NutUpsNode (config) {
-		RED.nodes.createNode(this, config)
-		var node = this
+        this.on('input', function(msg, send, done) {
+			send = send || function() { node.send.apply(node,arguments) }
 
-		node.config = config
+            const ups = msg.ups || config.ups || 'ups';
+            const [upsName, upsServer] = ups.split('@');
+            const upsPort = msg.port || config.port || '3493';
 
-		this.on('input', function (msg) {
-			var ups = (msg.payload || {}).ups || node.config.ups
-			execFile('upsc', [ups], function (err, stdout, stderr) {
-				if (err) {
-					node.error(err)
-					return
-				}
-				var result = {}
-				stdout.split('\n').forEach(function (line) {
-					var kv = line.split(':')
-					if (kv.length != 2) return
-					var key = kv[0].split('.')
-					key.reduce(function (obj, k) {
-						k = k.trim()
-						if (typeof obj[k] === 'undefined')
-							obj[k] = {}
-						return obj[k]
-					}, result)['value'] = kv[1].trim()
-				})
-				msg.payload = result;
-				node.send(msg);
-			})
-		})
+            const nut = new Nut(upsPort, upsServer);
 
-	}
+            nut.on('error', err => {
+                if (done) {
+                    done(err);
+                } else {
+                    node.error(err, msg);
+                }
+                this.status({fill:"red",shape:"ring",text:err.message});
+            });
 
-	RED.nodes.registerType('nut-ups', NutUpsNode)
-}
+            nut.on('close', () => {
+                this.trace('connection closed');
+            });
+
+            nut.on('ready', () => {
+                const result = {};
+                nut.GetUPSVars(upsName, (upsVars, err) => {
+                    if (err) {
+                        if (done) {
+                            done(err);
+                        } else {
+                            node.error(err, msg);
+                        }
+                        this.status({fill:"red",shape:"ring",text:err});
+                    } else {
+                        Object.keys(upsVars).forEach(upsVar => {
+                            let key = upsVar.split('.');
+                            key.reduce(function(obj, k) {
+                                if (typeof obj[k] === 'undefined') obj[k] = {};
+                                return obj[k];
+                            }, result).value = upsVars[upsVar].trim();
+                        });
+                        msg.payload = result;
+                        send(msg);
+                        this.status({});
+                    }
+                });
+                nut.close();
+                if (done) {
+                    done();
+                }
+            });
+
+            nut.start();
+            this.trace('started');
+        });
+    }
+    RED.nodes.registerType('nut-ups', NutUpsNode);
+};
