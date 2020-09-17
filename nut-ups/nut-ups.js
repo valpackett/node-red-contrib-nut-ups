@@ -12,6 +12,8 @@ module.exports = function (RED) {
 			const ups = msg.ups || config.ups || 'ups'
 			const [upsName, upsServer] = ups.split('@')
 			const upsPort = msg.port || config.port || '3493'
+			const upsUser = msg.username || config.username
+			const upsPass = msg.password || config.password
 
 			const nut = new Nut(upsPort, upsServer)
 
@@ -57,7 +59,14 @@ module.exports = function (RED) {
 				}
 			})
 
-			nut.start()
+			if (upsUser && upsPass)
+				nut.SetUsername(upsUser, () => nut.SetPassword(upsPass, () => nut.start()))
+			else if (upsUser)
+				nut.SetUsername(upsUser, () => nut.start())
+			else if (upsPass)
+				nut.SetPassword(upsPass, () => nut.start())
+			else
+				nut.start()
 			this.trace('started')
 		})
 	}
